@@ -60,8 +60,8 @@ async def check_user_order_api(
         raise HTTPException(detail=str(er), status_code=404)
 
 
-@order_router.put("", dependencies=[Depends(require_admin)])
-async def update_status_api(session: SessionDep, order_id: int):
+@order_router.put("")
+async def update_status_api(session: SessionDep, order_id: int, user_id : int = Depends(require_auth)):
     try:
         await change_status(session, order_id)
         return {"status": "Статус заказа изменён"}
